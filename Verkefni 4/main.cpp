@@ -30,17 +30,16 @@ public:
     double height   =0.1;
     
     void draw(){
-        cout << "Display" << endl;
+        glClear(GL_COLOR_BUFFER_BIT);
         
         glBegin(GL_POLYGON);
-        glVertex3f(x,            y,           0.0);//uppi til vinstri.
-        glVertex3f((x+width),    y,           0.0);//uppi til haegri.
-        glVertex3f((x+width),    (y-height),  0.0);//nidri til haegri.
-        glVertex3f(x,            (y-height),  0.0);//nidri til vinstri.
-        
-        glColor3f(square_color_r,square_color_g,square_color_b); // Color
-        
+        glVertex3f(x,            y,           0.0); //uppi til vinstri.
+        glVertex3f((x+width),    y,           0.0); //uppi til haegri.
+        glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
+        glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
         glEnd();
+        
+        glFlush();
     }
 };
 
@@ -56,18 +55,16 @@ Wolf ulfur;
 Sheep kind;
 
 void keyPressed(unsigned char key, int x, int y) {
-    cout << "X hnit: " << ulfur.x << endl; // Debug
-    cout << "Y hnit: " << ulfur.y << endl; // Debug
-    cout << "" << endl; // Debug
-    
     if(key == 'd')  {ulfur.x+=width;} // Virkar 26.10.18
     if(key == 'a')  {ulfur.x-=width;} // Virkar 26.10.18
     if(key == 's')  {ulfur.y-=height;} // Virkar 26.10.18
     if(key == 'w')  {ulfur.y+=height;} // Virkar 26.10.18
+    
+    ulfur.draw();
 }
 
 void display_world() {
-    ulfur.draw();
+    //ulfur.draw();
 }
 
 int main(int argc, char** argv){
@@ -81,7 +78,7 @@ int main(int argc, char** argv){
     glutDisplayFunc(display_world);
     glutKeyboardFunc(keyPressed);
     //##################################
-
+    
     glutMainLoop();
     return 0;
 }
