@@ -17,54 +17,88 @@ using namespace std;
 double width    =0.1;
 double height   =0.1;
 
-double square_color_r   =0.96;
-double square_color_g   =0.46;
-double square_color_b   =0.27;
-
 class Animal {
-public:
-    double x        =0;
-    double y        =0;
+    public:
+        double x        =0;
+        double y        =0;
     
-    double width    =0.1;
-    double height   =0.1;
+        double width    =0.1;
+        double height   =0.1;
     
-    void draw(){
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glBegin(GL_POLYGON);
-        glVertex3f(x,            y,           0.0); //uppi til vinstri.
-        glVertex3f((x+width),    y,           0.0); //uppi til haegri.
-        glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
-        glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
-        glEnd();
-        
-        glFlush();
-    }
+        double r;
+        double g;
+        double b;
+    
+        void set_color(double r,double g,double b) {
+            glColor3f(r,g,b);
+        }
+
+        void draw() {
+            set_color(r,g,b);
+            
+            glBegin(GL_POLYGON);
+            glVertex3f(x,            y,           0.0); //uppi til vinstri.
+            glVertex3f((x+width),    y,           0.0); //uppi til haegri.
+            glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
+            glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
+            glEnd();
+        }
+    
+        Animal();
 };
+
+Animal::Animal() {
+    
+}
 
 class Wolf: public Animal {
-    
+    public:
+        Wolf(double args_x, double args_y, double color_r, double color_g, double color_b);
 };
+
+Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b) {
+    x=args_x;
+    y=args_y;
+    
+    // Colors
+    r=color_r;
+    g=color_g;
+    b=color_b;
+}
 
 class Sheep: public Animal {
-    
+    public:
+        Sheep(double args_x, double args_y, double color_r, double color_g, double color_b);
 };
 
-Wolf ulfur;
-Sheep kind;
+Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, double color_b) {
+    x=args_x;
+    y=args_y;
+    
+    // Colors
+    r=color_r;
+    g=color_g;
+    b=color_b;
+}
+
+Wolf vondi_ulfurinn(-1, 1, 0.52, 0.46, 0.44);
+Sheep kindinn_einar(0, 0, 1.0, 1.0, 1.0);
 
 void keyPressed(unsigned char key, int x, int y) {
-    if(key == 'd')  {ulfur.x+=width;} // Virkar 26.10.18
-    if(key == 'a')  {ulfur.x-=width;} // Virkar 26.10.18
-    if(key == 's')  {ulfur.y-=height;} // Virkar 26.10.18
-    if(key == 'w')  {ulfur.y+=height;} // Virkar 26.10.18
+    glClear(GL_COLOR_BUFFER_BIT);
     
-    ulfur.draw();
+    if(key == 'd')  {vondi_ulfurinn.x+=width;} // Virkar 26.10.18
+    if(key == 'a')  {vondi_ulfurinn.x-=width;} // Virkar 26.10.18
+    if(key == 's')  {vondi_ulfurinn.y-=height;} // Virkar 26.10.18
+    if(key == 'w')  {vondi_ulfurinn.y+=height;} // Virkar 26.10.18
+    
+    vondi_ulfurinn.draw();
+    kindinn_einar.draw();
+    
+    glFlush();
 }
 
 void display_world() {
-    //ulfur.draw();
 }
 
 int main(int argc, char** argv){
