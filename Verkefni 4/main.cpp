@@ -25,6 +25,8 @@ class Animal {
         double width    =0.1;
         double height   =0.1;
     
+        bool is_alive = true;
+    
         double r;
         double g;
         double b;
@@ -41,7 +43,33 @@ class Animal {
             glVertex3f((x+width),    y,           0.0); //uppi til haegri.
             glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
             glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
+            
             glEnd();
+        }
+    
+        void alive() {
+            
+        }
+    
+    
+        void move_right() {
+            x+=width;
+        }
+    
+        void move_left() {
+            x-=width;
+        }
+    
+        void move_up() {
+            y+=height;
+        }
+    
+        void move_down() {
+            y-=height;
+        }
+    
+        void standBy() {
+
         }
     
         Animal();
@@ -57,6 +85,7 @@ class Wolf: public Animal {
 };
 
 Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b) {
+    // Coordinates
     x=args_x;
     y=args_y;
     
@@ -69,6 +98,23 @@ Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double 
 class Sheep: public Animal {
     public:
         Sheep(double args_x, double args_y, double color_r, double color_g, double color_b);
+    
+        void move() {
+            int rand_number = rand() % 5 + 1;
+
+            
+            if (rand_number == 1) {
+                Sheep::move_down();
+            } else if (rand_number == 2) {
+                Sheep::move_up();
+            } else if (rand_number == 3) {
+                Sheep::move_left();
+            } else if (rand_number == 4) {
+                Sheep::move_right();
+            } else if (rand_number == 5) {
+                Sheep::standBy();
+            }
+        }
 };
 
 Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, double color_b) {
@@ -87,18 +133,21 @@ Sheep kindinn_einar(0, 0, 1.0, 1.0, 1.0);
 void keyPressed(unsigned char key, int x, int y) {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(key == 'd')  {vondi_ulfurinn.x+=width;} // Virkar 26.10.18
-    if(key == 'a')  {vondi_ulfurinn.x-=width;} // Virkar 26.10.18
-    if(key == 's')  {vondi_ulfurinn.y-=height;} // Virkar 26.10.18
-    if(key == 'w')  {vondi_ulfurinn.y+=height;} // Virkar 26.10.18
+    if(key == 'd')  {vondi_ulfurinn.move_right();} // Virkar 26.10.18
+    if(key == 'a')  {vondi_ulfurinn.move_left();} // Virkar 26.10.18
+    if(key == 's')  {vondi_ulfurinn.move_down();} // Virkar 26.10.18
+    if(key == 'w')  {vondi_ulfurinn.move_up();} // Virkar 26.10.18
     
     vondi_ulfurinn.draw();
     kindinn_einar.draw();
+    
+    kindinn_einar.move();
     
     glFlush();
 }
 
 void display_world() {
+
 }
 
 int main(int argc, char** argv){
@@ -106,7 +155,7 @@ int main(int argc, char** argv){
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(0,0);
     glutInitWindowSize(700, 1200);
-    glutCreateWindow("Kind on the move!");
+    glutCreateWindow("Sheep running wild!");
     
     //##################################
     glutDisplayFunc(display_world);
