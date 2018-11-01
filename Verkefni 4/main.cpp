@@ -25,8 +25,6 @@ class Animal {
         double width    =0.1;
         double height   =0.1;
     
-        bool is_alive = true;
-    
         double r;
         double g;
         double b;
@@ -46,11 +44,6 @@ class Animal {
             
             glEnd();
         }
-    
-        void alive() {
-            
-        }
-    
     
         void move_right() {
             x+=width;
@@ -130,6 +123,33 @@ Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, doubl
 Wolf vondi_ulfurinn(-1, 1, 0.52, 0.46, 0.44);
 Sheep kindinn_einar(0, 0, 1.0, 1.0, 1.0);
 
+void get_distance_between(double obj1_x, double obj1_y, double obj2_x, double obj2_y) {
+    
+    double result_x;
+    double result_y;
+    double final_result;
+    
+    //1. finnum muninn a x1 og x2.
+    result_x = obj1_x - obj2_x;
+    //2. skellum þessum mun í annað veldi.
+    result_x = pow(result_x, 2);
+    
+    //3. finnum muninn á y1 og y2.
+    result_y = obj1_y - obj2_y;
+    //4. skellum þessum mun í annað veldi.
+    result_y = pow(result_y, 2);
+    
+    //5. leggjum saman báðar niðustöður.
+    final_result = result_x + result_y;
+    
+    //6. tökum kvaðratrótina af þessu.
+    final_result = sqrt(final_result);
+    
+    //7 skila.
+    
+    cout << final_result << endl;
+}
+
 void keyPressed(unsigned char key, int x, int y) {
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -142,6 +162,13 @@ void keyPressed(unsigned char key, int x, int y) {
     kindinn_einar.draw();
     
     kindinn_einar.move();
+    
+    //komumst að þvi hvort þeir hafi rekist saman
+    
+    //1. finnum fjarlægðina á milli þeirra.
+    get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindinn_einar.x, kindinn_einar.y);
+    
+    //2. ef fjarlægðin er minni en x, þá árekstur.
     
     glFlush();
 }
@@ -156,12 +183,12 @@ int main(int argc, char** argv){
     glutInitWindowPosition(0,0);
     glutInitWindowSize(700, 1200);
     glutCreateWindow("Sheep running wild!");
-    
+
     //##################################
     glutDisplayFunc(display_world);
     glutKeyboardFunc(keyPressed);
     //##################################
-    
+
     glutMainLoop();
     return 0;
 }
