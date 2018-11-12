@@ -175,22 +175,26 @@ Sheep kindin_jon(0, 0, 1.0, 1.0, 1.0);
 void keyPressed(unsigned char key, int x, int y) {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(key == 'd')  {vondi_ulfurinn.move_right();} // Virkar 26.10.18
-    if(key == 'a')  {vondi_ulfurinn.move_left();} // Virkar 26.10.18
-    if(key == 's')  {vondi_ulfurinn.move_down();} // Virkar 26.10.18
-    if(key == 'w')  {vondi_ulfurinn.move_up();} // Virkar 26.10.18
+    if(key == 'd')  {vondi_ulfurinn.move_right();}
+    if(key == 'a')  {vondi_ulfurinn.move_left();}
+    if(key == 's')  {vondi_ulfurinn.move_down();}
+    if(key == 'w')  {vondi_ulfurinn.move_up();}
     
     double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y);
-    // double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
-    // double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
+    double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
+    double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
     
     vondi_ulfurinn.draw();
     
     kindin_einar.draw();
+    kindin_gunnar.draw();
+    kindin_jon.draw();
     
     kindin_einar.move();
+    kindin_gunnar.move();
+    kindin_jon.move();
  
-    if (distance_between_einar > 0.6) {
+    if (distance_between_einar > 0.6 ) {
         kindin_einar.stop_being_scared();
     }
     
@@ -207,6 +211,48 @@ void keyPressed(unsigned char key, int x, int y) {
 
         vondi_ulfurinn.eaten+=1;
 
+        cout << vondi_ulfurinn.eaten << endl;
+    }
+    
+    
+    
+    if (distance_between_gunnar > 0.6 ) {
+        kindin_gunnar.stop_being_scared();
+    }
+    
+    if (distance_between_gunnar < 0.6 && distance_between_gunnar > 0.4) {
+        kindin_gunnar.becomes_scared();
+    }
+    
+    if (distance_between_gunnar < 0.4 && distance_between_gunnar > 0.2) {
+        kindin_gunnar.becomes_very_scared();
+    }
+    
+    if (distance_between_gunnar < 0.2 && distance_between_gunnar > 0.1) {
+        kindin_gunnar.is_alive = false;
+        
+        vondi_ulfurinn.eaten+=1;
+        
+        cout << vondi_ulfurinn.eaten << endl;
+    }
+    
+    if (distance_between_jon > 0.6 ) {
+        kindin_jon.stop_being_scared();
+    }
+    
+    if (distance_between_jon < 0.6 && distance_between_jon > 0.4) {
+        kindin_jon.becomes_scared();
+    }
+    
+    if (distance_between_jon < 0.4 && distance_between_jon > 0.2) {
+        kindin_jon.becomes_very_scared();
+    }
+    
+    if (distance_between_jon < 0.2 && distance_between_jon > 0.1) {
+        kindin_jon.is_alive = false;
+        
+        vondi_ulfurinn.eaten+=1;
+        
         cout << vondi_ulfurinn.eaten << endl;
     }
     
