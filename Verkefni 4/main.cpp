@@ -100,6 +100,9 @@ Animal::Animal() {
 
 class Wolf: public Animal {
     public:
+    
+        int eaten = 0;
+    
         Wolf(double args_x, double args_y, double color_r, double color_g, double color_b);
 };
 
@@ -120,7 +123,6 @@ class Sheep: public Animal {
     
         void move() {
             int rand_number = rand() % 5 + 1;
-
             
             if (rand_number == 1) {
                 Sheep::move_down();
@@ -133,6 +135,24 @@ class Sheep: public Animal {
             } else if (rand_number == 5) {
                 Sheep::standBy();
             }
+        }
+    
+        void stop_being_scared(){
+            r=1.0;
+            g=1.0;
+            b=1.0;
+        }
+    
+        void becomes_scared() {
+            r=0.97;
+            g=0.87;
+            b=0.11;
+        }
+    
+        void becomes_very_scared() {
+            r=1.0;
+            g=0.0;
+            b=0.0;
         }
 };
 
@@ -147,7 +167,10 @@ Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, doubl
 }
 
 Wolf vondi_ulfurinn(-1, 1, 0.52, 0.46, 0.44);
-Sheep kindinn_einar(0, 0, 1.0, 1.0, 1.0);
+Sheep kindin_einar(0, 0, 1.0, 1.0, 1.0);
+Sheep kindin_gunnar(0, 0, 1.0, 1.0, 1.0);
+Sheep kindin_jon(0, 0, 1.0, 1.0, 1.0);
+
 
 void keyPressed(unsigned char key, int x, int y) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -157,15 +180,34 @@ void keyPressed(unsigned char key, int x, int y) {
     if(key == 's')  {vondi_ulfurinn.move_down();} // Virkar 26.10.18
     if(key == 'w')  {vondi_ulfurinn.move_up();} // Virkar 26.10.18
     
+    double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y);
+    // double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
+    // double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
+    
     vondi_ulfurinn.draw();
-    kindinn_einar.draw();
     
-    kindinn_einar.move();
+    kindin_einar.draw();
     
-    double distance_between = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindinn_einar.x, kindinn_einar.y);
+    kindin_einar.move();
+ 
+    if (distance_between_einar > 0.6) {
+        kindin_einar.stop_being_scared();
+    }
     
-    if (distance_between < 0.1) {
-        kindinn_einar.is_alive = false;
+    if (distance_between_einar < 0.6 && distance_between_einar > 0.4) {
+        kindin_einar.becomes_scared();
+    }
+    
+    if (distance_between_einar < 0.4 && distance_between_einar > 0.2) {
+        kindin_einar.becomes_very_scared();
+    }
+    
+    if (distance_between_einar < 0.2 && distance_between_einar > 0.1) {
+        kindin_einar.is_alive = false;
+
+        vondi_ulfurinn.eaten+=1;
+
+        cout << vondi_ulfurinn.eaten << endl;
     }
     
     glFlush();
