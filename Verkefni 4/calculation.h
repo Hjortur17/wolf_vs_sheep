@@ -6,6 +6,10 @@
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
+#ifndef CALCULATION_H
+#define CALCULATION_H
+
+
 double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double obj2_y) {
     
     double result_x;
@@ -26,3 +30,5 @@ double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double 
     
     return final_result;
 }
+
+#endif

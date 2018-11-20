@@ -6,7 +6,8 @@
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
-#include "animals.cpp"
+#ifndef SHEEP_H
+#define SHEEP_H
 
 class Sheep: public Animal {
 public:
@@ -56,3 +57,5 @@ Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, doubl
     g=color_g;
     b=color_b;
 }
+
+#endif
