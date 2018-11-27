@@ -115,11 +115,17 @@ public:
         glRotatef(angle, 0, 0, 1);
         glTranslatef(-center_x, -center_y, 0);
 
+//        glBegin(GL_POLYGON);
+//        glVertex3f(x,           y,          0.0); //uppi til vinstri.
+//        glVertex3f((x+width),   y,          0.0); //uppi til haegri.
+//        glVertex3f((x+width),   (y-height), 0.0); //nidri til haegri.
+//        glVertex3f(x,           (y-height), 0.0); //nidri til vinstri.
+//        glEnd();
+        
         glBegin(GL_POLYGON);
         glVertex3f(x,           y,          0.0); //uppi til vinstri.
         glVertex3f((x+width),   y,          0.0); //uppi til haegri.
-        glVertex3f((x+width),   (y-height), 0.0); //nidri til haegri.
-        glVertex3f(x,           (y-height), 0.0); //nidri til vinstri.
+        glVertex3f((x+(width/2)),   (y-height),          0.0); //uppi til haegri.
         glEnd();
 
         //snua til baka.
@@ -205,21 +211,19 @@ Sheep kindin_jon(0, 0, 1.0, 1.0, 1.0);
 void keyPressed(unsigned char key, int x, int y) {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(key == 'd')  {vondi_ulfurinn.move_right();}
-    if(key == 'a')  {vondi_ulfurinn.move_left();}
-    if(key == 's')  {vondi_ulfurinn.move_down();}
-    if(key == 'w')  {vondi_ulfurinn.move_up();}
+    if(key == 'd')  {vondi_ulfurinn.move_right(); vondi_ulfurinn.angle=90;}
+    if(key == 'a')  {vondi_ulfurinn.move_left(); vondi_ulfurinn.angle=-90;}
+    if(key == 's')  {vondi_ulfurinn.move_down(); vondi_ulfurinn.angle=360;}
+    if(key == 'w')  {vondi_ulfurinn.move_up(); vondi_ulfurinn.angle=180;}
     
-    double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y);
-//    double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
-//    double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
+    double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y); // Kindin Einar
     
     vondi_ulfurinn.update_center();
-    vondi_ulfurinn.draw();
+    vondi_ulfurinn.special_draw();
     
-    kindin_einar.move();
+    kindin_einar.move(); // Kindin Einar
     
-    kindin_einar.draw();
+    kindin_einar.draw(); // Kindin Einar
     
     
     if (kindin_einar.is_alive) {
