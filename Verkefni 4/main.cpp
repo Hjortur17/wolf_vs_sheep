@@ -17,23 +17,17 @@ using namespace std;
 double width    =0.1;
 double height   =0.1;
 
-double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double obj2_y) {
+double get_distance_between(double x1, double y1, double x2, double y2) {
     
-    double result_x;
-    double result_y;
-    double final_result;
+    double first_result_x = (x1 - x2);
     
-    result_x = obj1_x - obj2_x;
+    double final_result_x = pow(first_result_x, 2);
     
-    result_x = pow(result_x, 2);
+    double first_result_y = (y1 - y2);
     
-    result_y = obj1_y - obj2_y;
+    double final_result_y = pow(first_result_y, 2);
     
-    result_y = pow(result_y, 2);
-    
-    final_result = result_x + result_y;
-    
-    final_result = sqrt(final_result);
+    double final_result = sqrt(final_result_x + final_result_y);
     
     return final_result;
 }
@@ -57,19 +51,17 @@ public:
     }
     
     void draw() {
-        if (!is_alive) {
-            //
+        if (is_alive) {
+            set_color(r,g,b);
+            
+            glBegin(GL_POLYGON);
+            glVertex3f(x,            y,           0.0); //uppi til vinstri.
+            glVertex3f((x+width),    y,           0.0); //uppi til haegri.
+            glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
+            glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
+            
+            glEnd();
         }
-
-        set_color(r,g,b);
-        
-        glBegin(GL_POLYGON);
-        glVertex3f(x,            y,           0.0); //uppi til vinstri.
-        glVertex3f((x+width),    y,           0.0); //uppi til haegri.
-        glVertex3f((x+width),    (y-height),  0.0); //nidri til haegri.
-        glVertex3f(x,            (y-height),  0.0); //nidri til vinstri.
-
-        glEnd();
     }
     
     void move_right() {
@@ -107,41 +99,41 @@ public:
     
     double center_x =0;
     double center_y =0;
-    
-    double angle = 0;
-    
+
+    int angle = 0;
+
     void update_center() {
         center_x = x+(width/2);
         center_y = y+(height/2);
     };
     
-    void draw() {
+    void special_draw() {
         set_color(r,g,b);
-        
+
         //snua.
         glTranslatef(center_x,center_y, 0);
         glRotatef(angle, 0, 0, 1);
         glTranslatef(-center_x, -center_y, 0);
-        
+
         glBegin(GL_POLYGON);
         glVertex3f(x,           y,          0.0); //uppi til vinstri.
         glVertex3f((x+width),   y,          0.0); //uppi til haegri.
         glVertex3f((x+width),   (y-height), 0.0); //nidri til haegri.
         glVertex3f(x,           (y-height), 0.0); //nidri til vinstri.
         glEnd();
-        
+
         //snua til baka.
         glTranslatef(center_x,center_y,0);
         glRotatef(angle, 0, 0, -1);
         glTranslatef(-center_x, -center_y, 0);
-        
+
         glEnd();
     }
     
-    Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, double args_angle);
+    Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, int args_angle);
 };
 
-Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, double args_angle) {
+Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, int args_angle) {
     // Coordinates
     x=args_x;
     y=args_y;
@@ -219,81 +211,36 @@ void keyPressed(unsigned char key, int x, int y) {
     if(key == 'w')  {vondi_ulfurinn.move_up();}
     
     double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y);
-    double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
-    double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
+//    double distance_between_gunnar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_gunnar.x, kindin_gunnar.y);
+//    double distance_between_jon = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_jon.x, kindin_jon.y);
     
     vondi_ulfurinn.update_center();
     vondi_ulfurinn.draw();
     
     kindin_einar.move();
-    kindin_gunnar.move();
-    kindin_jon.move();
     
     kindin_einar.draw();
-    kindin_gunnar.draw();
-    kindin_jon.draw();
     
     
-    if (distance_between_einar > 0.6 ) {
-        kindin_einar.stop_being_scared();
-    }
-    
-    if (distance_between_einar < 0.6 && distance_between_einar > 0.4) {
-        kindin_einar.becomes_scared();
-    }
-    
-    if (distance_between_einar < 0.4 && distance_between_einar > 0.2) {
-        kindin_einar.becomes_very_scared();
-    }
-    
-    if (distance_between_einar < 0.1 && distance_between_einar > 0.0) {
-        kindin_einar.is_alive = false;
+    if (kindin_einar.is_alive) {
+        if (distance_between_einar > 0.6 ) {
+            kindin_einar.stop_being_scared();
+        }
         
-        vondi_ulfurinn.eaten+=1;
+        if (distance_between_einar < 0.6 && distance_between_einar > 0.4) {
+            kindin_einar.becomes_scared();
+        }
         
-        cout << vondi_ulfurinn.eaten << endl;
-    }
-    
-    
-    
-    if (distance_between_gunnar > 0.6 ) {
-        kindin_gunnar.stop_being_scared();
-    }
-    
-    if (distance_between_gunnar < 0.6 && distance_between_gunnar > 0.4) {
-        kindin_gunnar.becomes_scared();
-    }
-    
-    if (distance_between_gunnar < 0.4 && distance_between_gunnar > 0.2) {
-        kindin_gunnar.becomes_very_scared();
-    }
-    
-    if (distance_between_gunnar < 0.1 && distance_between_gunnar > 0.0) {
-        kindin_gunnar.is_alive = false;
+        if (distance_between_einar < 0.4 && distance_between_einar > 0.2) {
+            kindin_einar.becomes_very_scared();
+        }
         
-        vondi_ulfurinn.eaten+=1;
-        
-        cout << vondi_ulfurinn.eaten << endl;
-    }
-    
-    if (distance_between_jon > 0.6 ) {
-        kindin_jon.stop_being_scared();
-    }
-    
-    if (distance_between_jon < 0.6 && distance_between_jon > 0.4) {
-        kindin_jon.becomes_scared();
-    }
-    
-    if (distance_between_jon < 0.4 && distance_between_jon > 0.2) {
-        kindin_jon.becomes_very_scared();
-    }
-    
-    if (distance_between_jon < 0.1 && distance_between_jon > 0.0) {
-        kindin_jon.is_alive = false;
-        
-        vondi_ulfurinn.eaten+=1;
-        
-        cout << vondi_ulfurinn.eaten << endl;
+        if (distance_between_einar < 0.1 && distance_between_einar > 0.0) {
+            kindin_einar.is_alive = false;
+            
+            vondi_ulfurinn.eaten+=1;
+            cout << vondi_ulfurinn.eaten << endl;
+        }
     }
     
     glFlush();
@@ -307,7 +254,7 @@ int main(int argc, char** argv){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(0,0);
-    glutInitWindowSize(700, 1200);
+    glutInitWindowSize(720, 1200);
     glutCreateWindow("Sheep running wild!");
     
     //##################################
