@@ -6,10 +6,29 @@
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
+
+// NOTES FOR FUTURE
+
+// --- SKILAVERKEFNI 5 ---
+// * BÚA TIL FAMILY - ÞANNIG EF EINN GULUR OG EINN BLÁR LENDA SAMAN VERÐUR BARN
+
+
+// ------------------------------------------------------------------------------
+
+
+// --- SKILAVERKEFNI 6 ---
+// * TIL VERÐUR GRAS Á HVERJI X SEK. ÞAÐ GEFUR ORKU
+// * KINDUR FÁ ORKU FALL
+// * KINDUR BORÐA GRAS TIL AÐ LIFA AF
+// * ÚLFUR FÆR ORKU FALL
+// * ÚFLUR BORÐAR KINDUR TIL AÐ LIFA AF
+
+
 #include <iostream>
 #include <OpenGL/gl.h>
 #include <OpenGl/glu.h>
 #include <GLUT/glut.h>
+
 #include <math.h>
 
 using namespace std;
@@ -84,7 +103,6 @@ public:
         
     }
     
-    
     Animal();
 };
 
@@ -94,6 +112,8 @@ Animal::Animal() {
 
 class Wolf: public Animal {
 public:
+    double width = 0.1;
+    double height = 0.1;
     
     int eaten = 0;
     
@@ -114,22 +134,15 @@ public:
         glTranslatef(center_x,center_y, 0);
         glRotatef(angle, 0, 0, 1);
         glTranslatef(-center_x, -center_y, 0);
-
-//        glBegin(GL_POLYGON);
-//        glVertex3f(x,           y,          0.0); //uppi til vinstri.
-//        glVertex3f((x+width),   y,          0.0); //uppi til haegri.
-//        glVertex3f((x+width),   (y-height), 0.0); //nidri til haegri.
-//        glVertex3f(x,           (y-height), 0.0); //nidri til vinstri.
-//        glEnd();
         
         glBegin(GL_POLYGON);
-        glVertex3f(x,           y,          0.0); //uppi til vinstri.
-        glVertex3f((x+width),   y,          0.0); //uppi til haegri.
-        glVertex3f((x+(width/2)),   (y-height),          0.0); //uppi til haegri.
+        glVertex3f(x,               y,              0.0); //uppi til vinstri.
+        glVertex3f((x+width),       y,              0.0); //uppi til haegri.
+        glVertex3f((x+(width/2)),   (y-height),     0.0); //uppi til haegri.
         glEnd();
 
         //snua til baka.
-        glTranslatef(center_x,center_y,0);
+        glTranslatef(center_x,center_y, 0);
         glRotatef(angle, 0, 0, -1);
         glTranslatef(-center_x, -center_y, 0);
 
@@ -140,6 +153,7 @@ public:
 };
 
 Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, int args_angle) {
+
     // Coordinates
     x=args_x;
     y=args_y;
@@ -193,6 +207,9 @@ public:
 };
 
 Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, double color_b) {
+    width = 0.05;
+    height = 0.05;
+    
     x=args_x;
     y=args_y;
     
@@ -202,68 +219,101 @@ Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, doubl
     b=color_b;
 }
 
-Wolf vondi_ulfurinn(-1, 1, 0.52, 0.46, 0.44, 90);
-Sheep kindin_einar(0, 0, 1.0, 1.0, 1.0);
-Sheep kindin_gunnar(0, 0, 1.0, 1.0, 1.0);
-Sheep kindin_jon(0, 0, 1.0, 1.0, 1.0);
+//class Detectors {
+//public:
+//
+//    void collision_detector(double distance_between_sheep, Wolf wolf) {
+//        if (Sheep::is_alive) {
+//            if (distance_between_sheep > 0.6) {
+//                Sheep::stop_being_scared();
+//            }
+//
+//            if (distance_between_sheep < 0.6 && distance_between_sheep > 0.4) {
+//                Sheep::becomes_scared();
+//            }
+//
+//            if (distance_between_sheep < 0.4 && distance_between_sheep > 0.2) {
+//                Sheep::becomes_very_scared();
+//            }
+//
+//            if (distance_between_sheep < 0.1 && distance_between_sheep > 0.0) {
+//                Sheep::is_alive = false;
+//
+//                wolf.eaten+=1;
+//            }
+//        }
+//    }
+//}
+
+//                (start_location, another_start_location, r, g, b, angle)
+
+Wolf vondi_ulfurinn (-1,    1,     0.52,      0.46,    0.44,     90);
+Sheep kindin_einar  (0,    0,      1.0,       1.0,     1.0);
+
+double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y); // Kindin Einar
+
+void turningkeyPressed(unsigned char key, int x, int y) {
+    if(key == 'd')  {vondi_ulfurinn.angle=90;}
+    if(key == 'a')  {vondi_ulfurinn.angle=-90;}
+    if(key == 's')  {vondi_ulfurinn.angle=360;}
+    if(key == 'w')  {vondi_ulfurinn.angle=180;}
+}
+
+void arrowKeyPressed(int key, int x, int y)
+{
+    switch(key)
+    {
+        case GLUT_KEY_UP:
+            vondi_ulfurinn.move_up();
+            break;
+        case GLUT_KEY_DOWN:
+            vondi_ulfurinn.move_down();
+            break;
+        case GLUT_KEY_LEFT:
+            vondi_ulfurinn.move_left();
+            break;
+        case GLUT_KEY_RIGHT:
+            vondi_ulfurinn.move_right();
+            break;
+    }
+}
 
 
-void keyPressed(unsigned char key, int x, int y) {
+void timer(int extra)
+{
     glClear(GL_COLOR_BUFFER_BIT);
     
-    if(key == 'd')  {vondi_ulfurinn.move_right(); vondi_ulfurinn.angle=90;}
-    if(key == 'a')  {vondi_ulfurinn.move_left(); vondi_ulfurinn.angle=-90;}
-    if(key == 's')  {vondi_ulfurinn.move_down(); vondi_ulfurinn.angle=360;}
-    if(key == 'w')  {vondi_ulfurinn.move_up(); vondi_ulfurinn.angle=180;}
-    
-    double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y); // Kindin Einar
+    if (kindin_einar.width < 0.1 && kindin_einar.height < 0.1) {
+        kindin_einar.width+=0.001;
+        kindin_einar.height+=0.001;
+    }
     
     vondi_ulfurinn.update_center();
     vondi_ulfurinn.special_draw();
     
-    kindin_einar.move(); // Kindin Einar
-    
-    kindin_einar.draw(); // Kindin Einar
-    
-    
-    if (kindin_einar.is_alive) {
-        if (distance_between_einar > 0.6 ) {
-            kindin_einar.stop_being_scared();
-        }
-        
-        if (distance_between_einar < 0.6 && distance_between_einar > 0.4) {
-            kindin_einar.becomes_scared();
-        }
-        
-        if (distance_between_einar < 0.4 && distance_between_einar > 0.2) {
-            kindin_einar.becomes_very_scared();
-        }
-        
-        if (distance_between_einar < 0.1 && distance_between_einar > 0.0) {
-            kindin_einar.is_alive = false;
-            
-            vondi_ulfurinn.eaten+=1;
-            cout << vondi_ulfurinn.eaten << endl;
-        }
-    }
+    kindin_einar.draw();
+    kindin_einar.move();
     
     glFlush();
+    glutTimerFunc(200, timer, 200);
 }
 
 void display_world() {
     
 }
 
-int main(int argc, char** argv){
+int main(int argc, char * argv[]){
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(0,0);
     glutInitWindowSize(720, 1200);
     glutCreateWindow("Sheep running wild!");
+    glutTimerFunc(200, timer, 200);
     
     //##################################
     glutDisplayFunc(display_world);
-    glutKeyboardFunc(keyPressed);
+    glutKeyboardFunc(turningkeyPressed);
+    glutSpecialFunc(arrowKeyPressed);
     //##################################
     
     glutMainLoop();

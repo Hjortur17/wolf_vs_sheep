@@ -16,7 +16,7 @@
 		2042CE71215CEFD2005D9488 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6D215CEFD2005D9488 /* OpenAL.framework */; };
 		2042CE72215CEFD2005D9488 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6E215CEFD2005D9488 /* OpenCL.framework */; };
 		2042CE73215CEFD2005D9488 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6F215CEFD2005D9488 /* OpenDirectory.framework */; };
-		2042CE75215CEFF1005D9488 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE74215CEFF1005D9488 /* GLUT.framework */; };
+		2042CE75215CEFF1005D9488 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE74215CEFF1005D9488 /* GLUT.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
