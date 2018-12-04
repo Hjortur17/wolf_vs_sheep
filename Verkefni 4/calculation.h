@@ -1,14 +1,15 @@
 //
-//  calculations.cpp
+//  calculation.h
 //  Verkefni 4
 //
-//  Created by Hjörtur Freyr Lárusson on 12/11/2018.
+//  Created by Hjörtur Freyr Lárusson on 04/12/2018.
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
-#ifndef CALCULATION_H
-#define CALCULATION_H
+#ifndef calculation_h
+#define calculation_h
 
+#include <math.h>
 
 double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double obj2_y) {
     
@@ -31,4 +32,4 @@ double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double 
     return final_result;
 }
 
-#endif
+#endif /* calculation_h */

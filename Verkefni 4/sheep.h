@@ -1,17 +1,17 @@
 //
-//  sheep.cpp
+//  sheep.h
 //  Verkefni 4
 //
-//  Created by Hjörtur Freyr Lárusson on 12/11/2018.
+//  Created by Hjörtur Freyr Lárusson on 04/12/2018.
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
-#ifndef SHEEP_H
-#define SHEEP_H
+#ifndef sheep_h
+#define sheep_h
 
 class Sheep: public Animal {
 public:
-    Sheep(double args_x, double args_y, double color_r, double color_g, double color_b);
+    Sheep(double args_x, double args_y, double args_r, double args_g, double args_b);
     
     void move() {
         int rand_number = rand() % 5 + 1;
@@ -30,32 +30,28 @@ public:
     }
     
     void stop_being_scared(){
-        r=1.0;
-        g=1.0;
-        b=1.0;
+        set_color(1.0, 1.0, 1.0);
     }
     
     void becomes_scared() {
-        r=0.97;
-        g=0.87;
-        b=0.11;
+        set_color(0.97, 0.87, 0.11);
     }
     
     void becomes_very_scared() {
-        r=1.0;
-        g=0.0;
-        b=0.0;
+        set_color(1.0, 0.0, 0.0);
     }
 };
 
-Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, double color_b) {
+Sheep::Sheep(double args_x, double args_y, double args_r, double args_g, double args_b) {
+    width = 0.05;
+    height = 0.05;
+    
     x=args_x;
     y=args_y;
     
-    // Colors
-    r=color_r;
-    g=color_g;
-    b=color_b;
+    r=args_r;
+    g=args_g;
+    b=args_b;
 }
 
-#endif
+#endif /* sheep_h */

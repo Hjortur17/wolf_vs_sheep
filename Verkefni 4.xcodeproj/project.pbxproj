@@ -7,16 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		20008EAC219A050100278CC1 /* animal.h in Sources */ = {isa = PBXBuildFile; fileRef = 20008EAA219A050100278CC1 /* animal.h */; };
-		20008EAF219A05D100278CC1 /* wolf.h in Sources */ = {isa = PBXBuildFile; fileRef = 20008EAD219A05D100278CC1 /* wolf.h */; };
-		20008EB2219A060F00278CC1 /* sheep.h in Sources */ = {isa = PBXBuildFile; fileRef = 20008EB0219A060F00278CC1 /* sheep.h */; };
-		20008EB5219A069400278CC1 /* calculation.h in Sources */ = {isa = PBXBuildFile; fileRef = 20008EB3219A069400278CC1 /* calculation.h */; };
-		2042CE65215CEF22005D9488 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2042CE64215CEF22005D9488 /* main.cpp */; };
 		2042CE70215CEFD2005D9488 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6C215CEFD2005D9488 /* OpenGL.framework */; };
 		2042CE71215CEFD2005D9488 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6D215CEFD2005D9488 /* OpenAL.framework */; };
 		2042CE72215CEFD2005D9488 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6E215CEFD2005D9488 /* OpenCL.framework */; };
 		2042CE73215CEFD2005D9488 /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE6F215CEFD2005D9488 /* OpenDirectory.framework */; };
 		2042CE75215CEFF1005D9488 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2042CE74215CEFF1005D9488 /* GLUT.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		20A75B5121B6E2C700BE17E3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20A75B5021B6E2C700BE17E3 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,17 +28,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		20008EAA219A050100278CC1 /* animal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = animal.h; sourceTree = "<group>"; };
-		20008EAD219A05D100278CC1 /* wolf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wolf.h; sourceTree = "<group>"; };
-		20008EB0219A060F00278CC1 /* sheep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheep.h; sourceTree = "<group>"; };
-		20008EB3219A069400278CC1 /* calculation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calculation.h; sourceTree = "<group>"; };
 		2042CE61215CEF22005D9488 /* Verkefni 4 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Verkefni 4"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2042CE64215CEF22005D9488 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2042CE6C215CEFD2005D9488 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		2042CE6D215CEFD2005D9488 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		2042CE6E215CEFD2005D9488 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		2042CE6F215CEFD2005D9488 /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
 		2042CE74215CEFF1005D9488 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		20A75B4C21B6E01400BE17E3 /* animal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = animal.h; sourceTree = "<group>"; };
+		20A75B4D21B6E0DB00BE17E3 /* wolf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wolf.h; sourceTree = "<group>"; };
+		20A75B4E21B6E12A00BE17E3 /* sheep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sheep.h; sourceTree = "<group>"; };
+		20A75B4F21B6E22600BE17E3 /* calculation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = calculation.h; sourceTree = "<group>"; };
+		20A75B5021B6E2C700BE17E3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +77,11 @@
 		2042CE63215CEF22005D9488 /* Verkefni 4 */ = {
 			isa = PBXGroup;
 			children = (
-				2042CE64215CEF22005D9488 /* main.cpp */,
-				20008EAA219A050100278CC1 /* animal.h */,
-				20008EAD219A05D100278CC1 /* wolf.h */,
-				20008EB0219A060F00278CC1 /* sheep.h */,
-				20008EB3219A069400278CC1 /* calculation.h */,
+				20A75B5021B6E2C700BE17E3 /* main.cpp */,
+				20A75B4C21B6E01400BE17E3 /* animal.h */,
+				20A75B4D21B6E0DB00BE17E3 /* wolf.h */,
+				20A75B4E21B6E12A00BE17E3 /* sheep.h */,
+				20A75B4F21B6E22600BE17E3 /* calculation.h */,
 			);
 			path = "Verkefni 4";
 			sourceTree = "<group>";
@@ -158,11 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2042CE65215CEF22005D9488 /* main.cpp in Sources */,
-				20008EAC219A050100278CC1 /* animal.h in Sources */,
-				20008EAF219A05D100278CC1 /* wolf.h in Sources */,
-				20008EB2219A060F00278CC1 /* sheep.h in Sources */,
-				20008EB5219A069400278CC1 /* calculation.h in Sources */,
+				20A75B5121B6E2C700BE17E3 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

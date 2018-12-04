@@ -1,38 +1,69 @@
 //
-//  wolf.cpp
+//  wolf.h
 //  Verkefni 4
 //
-//  Created by Hjörtur Freyr Lárusson on 12/11/2018.
+//  Created by Hjörtur Freyr Lárusson on 04/12/2018.
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
-#ifndef WOLF_H
-#define WOLF_H
+#ifndef wolf_h
+#define wolf_h
 
 class Wolf: public Animal {
-    public:
-        double r=1.0;
-//        int eaten = 0;
+public:
+    double width = 0.1;
+    double height = 0.1;
     
-        inline Wolf(double g) {
-            
-            r=g;
-            
-        }
+    int eaten = 0;
     
-//        inline Wolf(double g);
-        // double args_x, double args_y, double color_r, double color_g, double color_b
+    double center_x =0;
+    double center_y =0;
+    
+    int angle = 0;
+    
+    void update_center() {
+        center_x = x+(width/2);
+        center_y = y+(height/2);
+    };
+    
+    void special_draw() {
+        
+        double r=0.52;
+        double g=0.46;
+        double b=0.44;
+        
+        set_color(r,g,b);
+        
+        //snua.
+        glTranslatef(center_x,center_y, 0);
+        glRotatef(angle, 0, 0, 1);
+        glTranslatef(-center_x, -center_y, 0);
+        
+        glBegin(GL_POLYGON);
+        glVertex3f(x,               y,              0.0); //uppi til vinstri.
+        glVertex3f((x+width),       y,              0.0); //uppi til haegri.
+        glVertex3f((x+(width/2)),   (y-height),     0.0); //uppi til haegri.
+        glEnd();
+        
+        //snua til baka.
+        glTranslatef(center_x,center_y, 0);
+        glRotatef(angle, 0, 0, -1);
+        glTranslatef(-center_x, -center_y, 0);
+        
+        glEnd();
+    }
+    
+    Wolf(double args_x, double args_y, int args_angle);
 };
 
-//inline Wolf::Wolf(double g) {
+Wolf::Wolf(double args_x, double args_y, int args_angle) {
+    
     // Coordinates
-//    x=args_x;
-//    y=args_y;
-//
-//    // Colors
-//    r=color_r;
-//    g=color_g;
-//    b=color_b;
-//}
+    x=args_x;
+    y=args_y;
+    
+    // Angle
+    angle=args_angle;
+}
 
-#endif
+#endif /* wolf_h */
