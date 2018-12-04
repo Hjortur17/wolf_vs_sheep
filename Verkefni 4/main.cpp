@@ -6,17 +6,8 @@
 //  Copyright © 2018 Hjörtur Freyr. All rights reserved.
 //
 
-
-// NOTES FOR FUTURE
-
-// --- SKILAVERKEFNI 5 ---
-// * BÚA TIL FAMILY - ÞANNIG EF EINN GULUR OG EINN BLÁR LENDA SAMAN VERÐUR BARN
-
-
-// ------------------------------------------------------------------------------
-
-
 // --- SKILAVERKEFNI 6 ---
+// * BÚA TIL VEGG SVO KINDURNAR FARA EKKI ÚT FYRIR
 // * TIL VERÐUR GRAS Á HVERJI X SEK. ÞAÐ GEFUR ORKU
 // * KINDUR FÁ ORKU FALL
 // * KINDUR BORÐA GRAS TIL AÐ LIFA AF
@@ -28,6 +19,7 @@
 #include <OpenGL/gl.h>
 #include <OpenGl/glu.h>
 #include <GLUT/glut.h>
+#include <vector>
 
 #include <math.h>
 
@@ -36,17 +28,23 @@ using namespace std;
 double width    =0.1;
 double height   =0.1;
 
-double get_distance_between(double x1, double y1, double x2, double y2) {
+double get_distance_between(double obj1_x, double obj1_y, double obj2_x, double obj2_y) {
     
-    double first_result_x = (x1 - x2);
+    double result_x;
+    double result_y;
+    double final_result;
     
-    double final_result_x = pow(first_result_x, 2);
+    result_x = obj1_x - obj2_x;
     
-    double first_result_y = (y1 - y2);
+    result_x = pow(result_x, 2);
     
-    double final_result_y = pow(first_result_y, 2);
+    result_y = obj1_y - obj2_y;
     
-    double final_result = sqrt(final_result_x + final_result_y);
+    result_y = pow(result_y, 2);
+    
+    final_result = result_x + result_y;
+    
+    final_result = sqrt(final_result);
     
     return final_result;
 }
@@ -56,14 +54,17 @@ public:
     double x        =0;
     double y        =0;
     
+    double r        =1.0;
+    double g        =1.0;
+    double b        =1.0;
+    
     double width    =0.1;
     double height   =0.1;
     
-    double r;
-    double g;
-    double b;
+    double energy   =100.0;
     
     bool is_alive = true;
+    bool gender = true;
     
     void set_color(double r,double g,double b) {
         glColor3f(r,g,b);
@@ -103,6 +104,11 @@ public:
         
     }
     
+    void energy_bar() {
+        // if enegery lower 20% color change to red
+        // if engery lower 50% color change to yellow
+    }
+    
     Animal();
 };
 
@@ -128,6 +134,11 @@ public:
     };
     
     void special_draw() {
+        
+        double r=0.52;
+        double g=0.46;
+        double b=0.44;
+        
         set_color(r,g,b);
 
         //snua.
@@ -149,19 +160,14 @@ public:
         glEnd();
     }
     
-    Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, int args_angle);
+    Wolf(double args_x, double args_y, int args_angle);
 };
 
-Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double color_b, int args_angle) {
+Wolf::Wolf(double args_x, double args_y, int args_angle) {
 
     // Coordinates
     x=args_x;
     y=args_y;
-    
-    // Colors
-    r=color_r;
-    g=color_g;
-    b=color_b;
     
     // Angle
     angle=args_angle;
@@ -169,7 +175,7 @@ Wolf::Wolf(double args_x, double args_y, double color_r, double color_g, double 
 
 class Sheep: public Animal {
 public:
-    Sheep(double args_x, double args_y, double color_r, double color_g, double color_b);
+    Sheep(double args_x, double args_y, double args_r, double args_g, double args_b);
     
     void move() {
         int rand_number = rand() % 5 + 1;
@@ -188,69 +194,130 @@ public:
     }
     
     void stop_being_scared(){
-        r=1.0;
-        g=1.0;
-        b=1.0;
+        set_color(1.0, 1.0, 1.0);
     }
     
     void becomes_scared() {
-        r=0.97;
-        g=0.87;
-        b=0.11;
+        set_color(0.97, 0.87, 0.11);
     }
     
     void becomes_very_scared() {
-        r=1.0;
-        g=0.0;
-        b=0.0;
+        set_color(1.0, 0.0, 0.0);
     }
 };
 
-Sheep::Sheep(double args_x, double args_y, double color_r, double color_g, double color_b) {
+Sheep::Sheep(double args_x, double args_y, double args_r, double args_g, double args_b) {
     width = 0.05;
     height = 0.05;
     
     x=args_x;
     y=args_y;
     
-    // Colors
-    r=color_r;
-    g=color_g;
-    b=color_b;
+    r=args_r;
+    g=args_g;
+    b=args_b;
 }
 
-//class Detectors {
-//public:
-//
-//    void collision_detector(double distance_between_sheep, Wolf wolf) {
-//        if (Sheep::is_alive) {
-//            if (distance_between_sheep > 0.6) {
-//                Sheep::stop_being_scared();
-//            }
-//
-//            if (distance_between_sheep < 0.6 && distance_between_sheep > 0.4) {
-//                Sheep::becomes_scared();
-//            }
-//
-//            if (distance_between_sheep < 0.4 && distance_between_sheep > 0.2) {
-//                Sheep::becomes_very_scared();
-//            }
-//
-//            if (distance_between_sheep < 0.1 && distance_between_sheep > 0.0) {
-//                Sheep::is_alive = false;
-//
-//                wolf.eaten+=1;
-//            }
-//        }
-//    }
-//}
+Wolf vondi_ulfurinn (-1,    1,    90);
 
-//                (start_location, another_start_location, r, g, b, angle)
+vector<Sheep> sheep_male;
+vector<Sheep> sheep_female;
+vector<Sheep> sheep_child;
 
-Wolf vondi_ulfurinn (-1,    1,     0.52,      0.46,    0.44,     90);
-Sheep kindin_einar  (0,    0,      1.0,       1.0,     1.0);
+void timer(int extra)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    for (vector<Sheep>::iterator it = sheep_male.begin(); it != sheep_male.end(); ++it) {
+        
+        it->draw();
+        
+        double distance_between_sheeps = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, it->x, it->y);
+        
+        if (distance_between_sheeps > 0.6 ) {
+            it->stop_being_scared();
+        }
+        
+        if (distance_between_sheeps < 0.6 && distance_between_sheeps > 0.4) {
+            it->becomes_scared();
+        }
+        
+        if (distance_between_sheeps < 0.4 && distance_between_sheeps > 0.2) {
+            it->becomes_very_scared();
+        }
+        
+        if (distance_between_sheeps < 0.1 && distance_between_sheeps > 0.0) {
+            it->is_alive = false;
+            
+            vondi_ulfurinn.eaten+=1;
+            
+            cout << vondi_ulfurinn.eaten << endl;
+        }
 
-double distance_between_einar = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, kindin_einar.x, kindin_einar.y); // Kindin Einar
+        
+        if (it->width < 0.1 && it->height < 0.1) {
+            it->width+=0.001;
+            it->height+=0.001;
+        }
+        
+        it->move();
+    }
+    
+    for (vector<Sheep>::iterator it = sheep_female.begin(); it != sheep_female.end(); ++it) {
+        
+        it->draw();
+        
+        double distance_between_sheeps = get_distance_between(vondi_ulfurinn.x, vondi_ulfurinn.y, it->x, it->y);
+
+        if (distance_between_sheeps > 0.6 ) {
+            it->stop_being_scared();
+        }
+
+        if (distance_between_sheeps < 0.6 && distance_between_sheeps > 0.4) {
+            it->becomes_scared();
+        }
+
+        if (distance_between_sheeps < 0.4 && distance_between_sheeps > 0.2) {
+            it->becomes_very_scared();
+        }
+
+        if (distance_between_sheeps < 0.1 && distance_between_sheeps > 0.0) {
+            it->is_alive = false;
+
+            vondi_ulfurinn.eaten+=1;
+
+            cout << vondi_ulfurinn.eaten << endl;
+        }
+        
+        if (it->width < 0.1 && it->height < 0.1) {
+            it->width+=0.001;
+            it->height+=0.001;
+        }
+        
+        it->move();
+    }
+    
+    for (vector<Sheep>::iterator girl = sheep_female.begin(); girl != sheep_female.end(); ++girl) {
+        for (vector<Sheep>::iterator boy = sheep_male.begin(); boy != sheep_male.end(); ++boy) {
+            
+            double distance_between_boy_and_a_girl = get_distance_between(boy->x, boy->y, girl->x, girl->y);
+            
+            if (distance_between_boy_and_a_girl < 0.2 && distance_between_boy_and_a_girl > 0.0) {
+                for (int i=1; i<=2; i++) {
+                    Sheep child_sheep (0,      0,      0.44,     0.27,     0.69);
+                    
+                    sheep_child.push_back(child_sheep);
+                };
+            }
+        }
+    }
+    
+    vondi_ulfurinn.update_center();
+    vondi_ulfurinn.special_draw();
+    
+    glFlush();
+    glutTimerFunc(200, timer, 200);
+}
 
 void turningkeyPressed(unsigned char key, int x, int y) {
     if(key == 'd')  {vondi_ulfurinn.angle=90;}
@@ -278,26 +345,6 @@ void arrowKeyPressed(int key, int x, int y)
     }
 }
 
-
-void timer(int extra)
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    if (kindin_einar.width < 0.1 && kindin_einar.height < 0.1) {
-        kindin_einar.width+=0.001;
-        kindin_einar.height+=0.001;
-    }
-    
-    vondi_ulfurinn.update_center();
-    vondi_ulfurinn.special_draw();
-    
-    kindin_einar.draw();
-    kindin_einar.move();
-    
-    glFlush();
-    glutTimerFunc(200, timer, 200);
-}
-
 void display_world() {
     
 }
@@ -309,6 +356,18 @@ int main(int argc, char * argv[]){
     glutInitWindowSize(720, 1200);
     glutCreateWindow("Sheep running wild!");
     glutTimerFunc(200, timer, 200);
+    
+    for (int i=1; i<=2; i++) {
+        Sheep boy_sheep (0,      0,      0.68,     0.85,     0.87);
+
+        sheep_male.push_back(boy_sheep);
+    };
+    
+    for (int i=1; i<=2; i++) {
+        Sheep girl_sheep (0,      0,      1.0,     0.75,     0.76);
+        
+        sheep_female.push_back(girl_sheep);
+    };
     
     //##################################
     glutDisplayFunc(display_world);
